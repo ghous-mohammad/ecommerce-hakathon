@@ -7,13 +7,22 @@ import Sizes from '@/components/ui/Sizes'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ShoppingCart } from "lucide-react";
+import { useAuth } from '@clerk/nextjs'
+import { SignInButton } from '@clerk/clerk-react'
+
+
+
 
 
 
 
 const Productdetail:FC<{ item: IProducts }>= ({item}) => {
 
-  const [state, setState] = useState(0);
+  const {userId}:any = useAuth()
+  const {isSignedIn} = useAuth();
+  
+  const [state, setState] = useState(1);
+
   const decrease = () => {
 
     if (state == 0) return;
@@ -23,12 +32,36 @@ const Productdetail:FC<{ item: IProducts }>= ({item}) => {
   const increase = () => {
     setState(state + 1);
   };
+ 
+console.log(userId)
+
+async function handdleaddtocart() {
+  try {
+    const res = await fetch("/api/cart" , {
+      method: 'POST' , 
+      body: JSON.stringify({
+       user_id:userId,
+        product_id: item._id,
+        product_title: item.title,
+        image_url: urlForImage(item.image).url(),
+        product_price: item.price * state ,
+        product_quantity : state
+      })
+    }) 
+
+  } catch (error) {
+    
+  }
+}
+
+
+
 
 
   
   return (
     <>
- <section className='flex'>
+ <section className='flex flex-col md:flex-row'>
 
       {/* right container */}
       <div className='flex gap-x-5'>
@@ -78,20 +111,32 @@ const Productdetail:FC<{ item: IProducts }>= ({item}) => {
 
 
   {/* quantity */}
-  <div>
+    <div>
     <p>Quantity</p>
 
-<button className='' onClick={increase}>+</button>{state}<button className='' onClick={decrease}>-</button>
+<button className='' onClick={decrease}>-</button>{state}<button className='' onClick={increase}>+</button>
 
     </div>
 
 
 {/* button */}
 
+
     <div className=''>
-          
-<Button className='px-18 py-6  md:py-7 mt-5  w-72 ' ><ShoppingCart className='pr-3 w-8 h-8  text-base'/>Add to Cart</Button>
+      {isSignedIn ?
+
+        
+      <Button onClick={handdleaddtocart } className='px-18 py-6  md:py-7 mt-5  w-72 ' ><ShoppingCart className='pr-3 w-8 h-8  text-base'/>Add to Cart</Button>
+       :
+       <SignInButton>
+       <Button className='px-18 py-6  md:py-7 mt-5  w-72 '>Sign in</Button>
+       </SignInButton>
+     
+     
+     }
+
     </div>
+
 
       </div>
        

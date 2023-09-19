@@ -8,9 +8,12 @@ import Mobileview from "./Mobileview";
 import {GiHamburgerMenu } from "react-icons/gi";
 import {  IoMdClose } from "react-icons/io"
 import { useState } from 'react';
-
+import { SignInButton } from "@clerk/nextjs";
+import { SignUpButton } from "@clerk/nextjs";
+import { useAuth , UserButton } from "@clerk/nextjs";
 
 export default function Header() {
+  const {isSignedIn} = useAuth();
   const [isNavbarOpen , setNavbarOpen] = useState<boolean>(false);
 
   return (
@@ -47,26 +50,62 @@ export default function Header() {
         </div>
 
 
+           
+
+
+         <div className="flex space-x-3 items-center">
+
+
+      {/* sign in / sign up */}
+       <div className="">
+            {!isSignedIn && (
+<>
+          <SignInButton mode="modal">
+          <button className="font-semibold">Sign In / </button>  
+        </SignInButton>
+
+        <SignUpButton mode="modal">
+
+         <button className="font-semibold"> Sign up</button>        
+     </SignUpButton>
+</>
+
+     ) }
+{/* user icon */}
+<UserButton afterSignOutUrl="/" />
+        </div>
+
+
 
         {/* icon */}
+      
         <div className="relative h-10 w-10 rounded-full bg-gray-200 hidden md:flex flex-shrink-0  justify-center items-center">
+        
+       
+        
           <div className="absolute top-1 right-1 bg-[#f02d34] font-semibold text-white text-[10px] rounded-full h-4 w-4 flex justify-center items-start ">2</div>
           <ShoppingCart className="w-5 h-5 " />
         </div>
 
 
+       
+    
+      </div>
+    
+    
+
 
 
         <div onClick={() => setNavbarOpen(!isNavbarOpen)}>
 
-{
-    isNavbarOpen ?  <div className="flex md:hidden  items-center">
-    <IoMdClose size={35} />
-  </div> 
-  :
+       {
+          isNavbarOpen ?  <div className="flex md:hidden  items-center">
+       <IoMdClose size={35} />
+        </div> 
+        :
 
-    <div className="flex md:hidden  items-center ">
-    <GiHamburgerMenu size={25} />
+        <div className="flex md:hidden  items-center ">
+       <GiHamburgerMenu size={25} />
     </div>
 }
 </div>
