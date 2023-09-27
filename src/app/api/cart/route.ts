@@ -1,7 +1,5 @@
 import { NextRequest , NextResponse} from "next/server";
 import { cartCoulmns, db } from "../../../../Database/Drizzle";
-import {v4} from "uuid";
-import { cookies } from "next/headers"
 import { and, eq } from "drizzle-orm";
 
 
@@ -84,7 +82,7 @@ export const PUT = async (request:NextRequest) =>{
    const req =  await  request.json()
    try {
 
-      const res = await db.update(cartCoulmns).set({product_quantity:req.product_quantity}).where(
+      const res = await db.update(cartCoulmns).set({product_quantity: req.product_quantity}).where(
          and(
          eq(cartCoulmns.user_id, req.user_id ),
          eq(cartCoulmns.product_title, req.product_title)
@@ -98,7 +96,7 @@ console.log("Data has been succesfully updated")
        return NextResponse.json({message : "Prodcuct qantity has been updated"})
 
    } catch (error) {
-      console.log("error in updating quantity" + error)
+      console.log("error in updating quantity" +   error)
       return NextResponse.json({message: "Error in updating product quantity"})
    }
 }

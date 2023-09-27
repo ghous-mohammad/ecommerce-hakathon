@@ -11,7 +11,7 @@ import Fd from "/public/hero/feuture/Featured1.webp"
 
 export default function Hero() {
   return (
-    <section className='flex flex-col justify-between  items-center gap-[2rem] relative  h-[100vh] md:gap-x-[6rem] md:flex-row md:gap-y-0 ' >
+    <section className='flex flex-col justify-between  items-center gap-[2rem] relative  md:gap-x-[6rem] md:flex-row md:gap-y-0 ' >
 
 {/* left div */}
 <div className='flex-1 flex flex-col max-w-screen-md  gap-[1rem]  '>
@@ -43,9 +43,9 @@ Anyone can beat you but no one can beat your outfit as long as you wear Dine out
 
 {/* right div */}
 <div className='flex-1 hidden lg:block  mt-10'>
-    <div className='w-[600px] h-[600px]  rounded-full  bg-[#FFECE3]    '>
+    <div className='w-[600px] h-[600px] absolute rounded-full top-[-5px]  bg-[#FFECE3]    '>
 
-<Image src={Heroimg} alt="hero image" className='absolute overflow-clip top-[-5px] w-[650px] h-[650px]' />
+<Image src={Heroimg} alt="hero image" className=' absolute overflow-clip top-[-5px] w-[650px] h-[650px]' />
     </div>
 </div>
 
